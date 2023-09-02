@@ -22,11 +22,18 @@
   (reset!
    server
    (jetty/run-jetty (-> #'handler
-                        muuntaja/wrap-format
-                        (defaults/wrap-defaults defaults/site-defaults))
-                    {:join? false
-                     :port 8000})))
+                        (defaults/wrap-defaults defaults/site-defaults)
+                        (content-middleware/wrap-content-type "text/html"))
+    {:join? false
+     :port 8000})))
 
 (defn stop-jetty! []
   (.stop @server)
   (reset! server nil))
+
+(defn restart-jetty! []
+  (stop-jetty!)
+  (start-jetty!))
+
+(comment
+  (restart-jetty!))
