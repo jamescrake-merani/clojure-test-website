@@ -1,5 +1,6 @@
 (ns clojure-test-website.main
   (:require [ring.adapter.jetty :as jetty]
+            [ring.middleware.content-type :as content-middleware]
             [ring.middleware.defaults :as defaults]
             [hiccup2.core :as h]
             [muuntaja.middleware :as muuntaja]))
