@@ -1,18 +1,31 @@
 (ns clojure-test-website.main
   (:require [ring.adapter.jetty :as jetty]
-            [hiccup2.core]))
+            [ring.middleware.defaults :as defaults]
+            [hiccup2.core :as h]
+            [muuntaja.middleware :as muuntaja]))
 
 (defonce server (atom nil))
 
+(def home-page
+  (h/html
+   [:html
+    [:body
+     [:h1 "Hello World!"]
+     [:p "Welcome to my amazing website!"]]]))
+
 (defn handler [req]
   {:status 200
-   :body "Hello World!"})
+   :headers {"Content-Type" "text/html"}
+   :body (str home-page)})
 
 (defn start-jetty! []
   (reset!
    server
-   (jetty/run-jetty handler {:join? false
-                             :port 8000})))
+   (jetty/run-jetty (-> #'handler
+                        muuntaja/wrap-format
+                        (defaults/wrap-defaults defaults/site-defaults))
+                    {:join? false
+                     :port 8000})))
 
 (defn stop-jetty! []
   (.stop @server)
