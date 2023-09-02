@@ -24,13 +24,18 @@
         [:div.navbar-nav
          [:ul.navbar-nav
           [:li.nav-item
-           [:a.nav-link {:href "#"} "First Link"]]]] ]]]
+           [:a.nav-link {:href "/about"} "About"]]]] ]]]
      [:div.container content]]]))
 
 (def home-page
   (h/html
    [:h1 "Home page"]
    [:p "This is the home page of the application"]))
+
+(def about-page
+  (h/html
+   [:h1 "About Page"]
+   [:p "This is a website about " [:strong "stuff"] "."]))
 
 ;; (defn html-response [raw-str]
 ;;   {:status 200
@@ -41,7 +46,8 @@
 ;;   (html-response (layout home-page)))
 
 (defroutes handler
-  (GET "/" [] (str (layout home-page))))
+  (GET "/" [] (str (layout home-page)))
+  (GET "/about" [] (str (layout about-page))))
 
 (defn start-jetty! []
   (reset!
