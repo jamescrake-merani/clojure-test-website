@@ -14,10 +14,13 @@
      [:h1 "Hello World!"]
      [:p "Welcome to my amazing website!"]]]))
 
-(defn handler [req]
+(defn html-response [raw-str]
   {:status 200
    :headers {"Content-Type" "text/html"}
-   :body (str home-page)})
+   :body (str raw-str)})
+
+(defn handler [req]
+  (html-response home-page))
 
 (defn start-jetty! []
   (reset!
