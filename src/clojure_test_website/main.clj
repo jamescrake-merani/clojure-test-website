@@ -2,6 +2,8 @@
   (:require [ring.adapter.jetty :as jetty]
             [ring.middleware.content-type :as content-middleware]
             [ring.middleware.defaults :as defaults]
+            [compojure.core :refer :all]
+            [compojure.route :as route]
             [hiccup2.core :as h]
             [muuntaja.middleware :as muuntaja]))
 
@@ -30,13 +32,16 @@
    [:h1 "Home page"]
    [:p "This is the home page of the application"]))
 
-(defn html-response [raw-str]
-  {:status 200
-   :headers {"Content-Type" "text/html"}
-   :body (str raw-str)})
+;; (defn html-response [raw-str]
+;;   {:status 200
+;;    :headers {"Content-Type" "text/html"}
+;;    :body (str raw-str)})
 
-(defn handler [req]
-  (html-response (layout home-page)))
+;; (defn handler [req]
+;;   (html-response (layout home-page)))
+
+(defroutes handler
+  (GET "/" [] (str (layout home-page))))
 
 (defn start-jetty! []
   (reset!
@@ -44,8 +49,8 @@
    (jetty/run-jetty (-> #'handler
                         (defaults/wrap-defaults defaults/site-defaults)
                         (content-middleware/wrap-content-type "text/html"))
-    {:join? false
-     :port 8000})))
+                    {:join? false
+                     :port 8000})))
 
 (defn stop-jetty! []
   (.stop @server)
