@@ -7,12 +7,19 @@
 
 (defonce server (atom nil))
 
+(defn layout [content]
+  (h/html
+   [:html {:lang "en"}
+    [:head
+     [:link {:rel "stylesheet"
+             :href "https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"}]]
+    [:body
+     [:div.container content]]]))
+
 (def home-page
   (h/html
-   [:html
-    [:body
-     [:h1 "Hello World!"]
-     [:p "Welcome to my amazing website!"]]]))
+   [:h1 "Home page"]
+   [:p "This is the home page of the application"]))
 
 (defn html-response [raw-str]
   {:status 200
@@ -20,7 +27,7 @@
    :body (str raw-str)})
 
 (defn handler [req]
-  (html-response home-page))
+  (html-response (layout home-page)))
 
 (defn start-jetty! []
   (reset!
