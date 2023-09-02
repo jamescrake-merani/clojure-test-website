@@ -14,6 +14,15 @@
      [:link {:rel "stylesheet"
              :href "https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"}]]
     [:body
+     [:nav.navbar.navbar-expand-lg.bg-body-tertiary
+      [:div.container-fluid
+       [:div.navbar-header
+        [:a.navbar-brand {:href "/"} "Website"]]
+       [:div.collapse.navbar-collapse
+        [:div.navbar-nav
+         [:ul.navbar-nav
+          [:li.nav-item
+           [:a.nav-link {:href "#"} "First Link"]]]] ]]]
      [:div.container content]]]))
 
 (def home-page
